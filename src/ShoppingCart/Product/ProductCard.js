@@ -21,7 +21,7 @@ function ProductCard(props) {
       <Card >
         <Card.Body>
           <Card.Title>{props.data.Id}{props.data.name}</Card.Title>
-          <Card.Text   >
+          <Card.Text>
             <span className='ellipseText' style={{ margin: 'auto' }}>    {props.data.description}</span>
             <span className={'strike'}>${parseFloat(props.data.price) + 10} </span>
             ${props.data.price}

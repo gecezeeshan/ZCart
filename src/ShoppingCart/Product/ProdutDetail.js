@@ -1,14 +1,24 @@
-import React from 'react'
+import {React, useEffect, useState} from 'react';
 import { Button } from 'react-bootstrap';
 import classes from './Cart.module.css';
 import { useParams } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import ShoppingCartData from '../ShoppingCartData.js'
 import {Link } from 'react-router-dom';
-
+import axios from 'axios';
 function ProductDetail() {
+  const [productData, setProductData] = useState(null);
+
+  const baseURL = "http://localhost:5000/";
     const params = useParams();
     //const [product,setProduct] = useState([]);
+
+    useEffect(() => {      
+      axios.get(baseURL+'CartProducts').then((response) => {          
+          setProductData(response.data);
+      });
+    }, []);
+    if (!productData) return null;
     var product ;
     const GetProduct = () => {
         var _products = ShoppingCartData.CartRepository.CartProducts;      

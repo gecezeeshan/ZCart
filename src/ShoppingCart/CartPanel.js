@@ -4,7 +4,7 @@ import CartProductPanel from './Product/CartProductPanel';
 import SearchPanel from './Search/SearchPanel';
 import CartProductCategory from './Category/CartProductCategory';
 import classes from './ShoppingCart.module.css';
-import Checkout from './Cart/Checkout'
+import axios from "axios";
 export default function CartPanel() {
     //var ShoppingCartData.CartRepository;
     var cartData = [];
@@ -12,12 +12,30 @@ export default function CartPanel() {
     const [inStockOnly, setInStockOnly] = useState(false);
     const [currentCategoryId, setCurrentCategoryId] = useState(0);
     const [categoryProducts, setCategoryProducts] = useState(ShoppingCartData.CartRepository.CartCategories);
+    const [categoryData, setCategoryData] = React.useState(null);
+    const [productData, setProductData] = React.useState(null);
+
+    const baseURL = "http://localhost:5000/";
+
+    useEffect(() => {
+      
+      axios.get(baseURL+'CartCategories').then((response) => {
+        
+        setCategoryData(response.data);
+       
+      });
+    }, []);
 
 
+    useEffect(() => {      
+        axios.get(baseURL+'CartProducts').then((response) => {          
+            setProductData(response.data);
+        });
+      }, []);
+      if (!productData) return null;
+      if (!categoryData) return null;
     const handleFilterTextChange = (filterText) => {
         setFilterText(filterText);
-
-
     }
 
     const handleInStockChange = (inStockOnly) => {
@@ -29,9 +47,9 @@ export default function CartPanel() {
 
     const modifyCartData = () => {
 
-        ShoppingCartData.CartRepository.CartCategories.map((a) => {
+        categoryData.map((a) => {
 
-            var products = ShoppingCartData.CartRepository.CartProducts.filter((b) => {
+            var products = productData.filter((b) => {
                 return b.CategoryId == a.CategoryId
                     && (b.name.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) >= 0 || filterText == "")
                     && (inStockOnly == true ? b.stocked == inStockOnly : true)

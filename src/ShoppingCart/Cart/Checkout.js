@@ -1,11 +1,14 @@
-import React from 'react';
+import {React, useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ShoppingCartData from '../ShoppingCartData.js';
 import { Button } from 'react-bootstrap';
 import { checkoutActions } from '../../Store/index';
-
+import axios from 'axios';
 
 const Checkout = () => {
+    const [productData, setProductData] = useState(null);
+
+    const baseURL = "http://localhost:5000/";
     var checkOutSlice = useSelector(state => state.checkout);
     const dispatch = useDispatch();
     var productLst = [];
@@ -14,11 +17,18 @@ const Checkout = () => {
         event.preventDefault();
         dispatch(checkoutActions.RemoveItem(event.target.id));
     }
+    useEffect(() => {      
+        axios.get(baseURL+'CartProducts').then((response) => {          
+            setProductData(response.data);
+        });
+      }, []);
+      if (!productData) return null;
+
 
     var total = 0;
 
     const GetProducts = () => {
-        var _products = ShoppingCartData.CartRepository.CartProducts;
+        var _products = productData;
         var products = checkOutSlice.products;
 
         //products = _products.filter(p => products.includes(p.Id.toString()));
@@ -73,7 +83,7 @@ const Checkout = () => {
                                 <h6 className="my-0">Promo code</h6>
                                 <small>EXAMPLECODE</small>
                             </div>
-                            <span className="text-success">"-"$5</span>
+                            <span className="text-success">"-"$</span>
                         </li>
                         <li className="list-group-item d-flex justify-content-between">
                             <span>Total (USD)</span>

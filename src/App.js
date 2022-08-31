@@ -10,21 +10,7 @@ import Checkout from './ShoppingCart/Cart/Checkout';
 import ProductDetail from './ShoppingCart/Product/ProdutDetail';
 
 function App() {
-  const [cpage, setCPage] = useState("home");
-  const pageHandler = (currentPage) => {
-  //  alert(currentPage);
-    setCPage(currentPage);
-  };
 
-  // const renderContent = () => {
-
-  //   if (cpage === 'home')
-  //     return <CartPanel></CartPanel>
-  //   else if (cpage === 'home')
-  //     return <CartPanel></CartPanel>
-  //   else return ""
-
-  // }
 
   return (
     <>
