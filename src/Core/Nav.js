@@ -9,9 +9,20 @@ function Nav(props) {
     textDecoration: "underline",
   };
 
+
+let signOut = () => {
+    // var auth2 = gapi.auth2.getAuthInstance();
+    // auth2.signOut().then(function () {
+    //   console.log('User signed out.');
+    // });
+  }
+
+
   return (
     <>
    
+   <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="414875063153-7eol3pr9pgce6kj3plkr3b5elo2cau3k.apps.googleusercontent.com"></meta>
     <nav className={classes.nav}>
 <ul>
 <li>
@@ -57,6 +68,11 @@ function Nav(props) {
           >
             About Us
           </NavLink>
+        </li>
+        <li>
+        <a href="#" click="signOut();">Sign out</a>
+
+
         </li>
 </ul>
      </nav>
